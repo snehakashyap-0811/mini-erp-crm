@@ -120,12 +120,20 @@ p { margin: 0; color: var(--muted); }
 }
 .btn:hover { border-color: #b8c4d0; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.btn-primary {
+.btn-primary,
+.login-card .btn-primary {
   background: var(--brand);
   border-color: var(--brand);
-  color: white;
+  color: #fff;
+  width: 100%;
+  font-weight: 600;
 }
-.btn-primary:hover { background: var(--brand-2); }
+.btn-primary:hover,
+.login-card .btn-primary:hover {
+  background: var(--brand-2);
+  border-color: var(--brand-2);
+  color: #fff;
+}
 .btn-ghost {
   background: transparent;
   border-color: transparent;
