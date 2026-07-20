@@ -14,7 +14,6 @@ Full-stack wholesale/distribution ERP + CRM for internal teams (Admin, Sales, Wa
 Password for all demo users: `Password@123`  
 (`admin@erp.local`, `sales@erp.local`, `warehouse@erp.local`, `accounts@erp.local`)
 
-> `localhost` links in **Local setup** are only for running on your own computer. Reviewers should use the live URLs above.
 
 ## Architecture
 
