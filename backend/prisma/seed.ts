@@ -6,6 +6,12 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Seeding database...');
 
+  const existingUsers = await prisma.user.count();
+  if (existingUsers > 0 && process.env.FORCE_SEED !== 'true') {
+    console.log('Users already exist — skipping seed (set FORCE_SEED=true to reset).');
+    return;
+  }
+
   await prisma.challanItem.deleteMany();
   await prisma.salesChallan.deleteMany();
   await prisma.stockMovement.deleteMany();
