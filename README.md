@@ -2,6 +2,20 @@
 
 Full-stack wholesale/distribution ERP + CRM for internal teams (Admin, Sales, Warehouse, Accounts).
 
+## Live demo
+
+| | URL |
+|--|-----|
+| **Frontend** | https://mini-erp-crm-web.vercel.app |
+| **Backend API** | https://mini-erp-crm-api.vercel.app |
+| **Health** | https://mini-erp-crm-api.vercel.app/health |
+| **GitHub** | https://github.com/snehakashyap-0811/mini-erp-crm |
+
+Password for all demo users: `Password@123`  
+(`admin@erp.local`, `sales@erp.local`, `warehouse@erp.local`, `accounts@erp.local`)
+
+> `localhost` links in **Local setup** are only for running on your own computer. Reviewers should use the live URLs above.
+
 ## Architecture
 
 ```
@@ -134,33 +148,35 @@ Postman collection: [`postman/Mini-ERP-CRM.postman_collection.json`](postman/Min
 | Stock adjust | yes | no | yes | no |
 | Challans create/confirm | yes | yes | view | view |
 
-## Deployment (free hosting)
+## Deployment (how this project is hosted)
 
-Recommended free stack:
+| Piece | Service |
+|-------|---------|
+| Database | Neon (PostgreSQL) |
+| Backend API | Vercel serverless (`backend/`) |
+| Frontend | Vercel static site (`frontend/`) |
 
-1. **Database** — [Neon](https://neon.tech) or Supabase Postgres  
-2. **Backend** — [Render](https://render.com) Web Service (Node)  
-3. **Frontend** — [Vercel](https://vercel.com) or Netlify  
+### Environment variables (production)
 
-### Backend on Render
-1. Connect this GitHub repo
-2. Root directory: `backend`
-3. Build: `npm install && npx prisma generate && npm run build`
-4. Start: `npx prisma db push && npm run seed && npm start`
-5. Set env vars: `DATABASE_URL`, `JWT_SECRET`, `CORS_ORIGIN` (your frontend URL)
+**Backend (Vercel project `mini-erp-crm-api`)**
+- `DATABASE_URL` — Neon connection string (prefer pooler URL)
+- `JWT_SECRET` — long random secret
+- `CORS_ORIGIN` — frontend origin(s), e.g. `https://mini-erp-crm-web.vercel.app`
 
-### Frontend on Vercel
-1. Root directory: `frontend`
-2. Build command: `npm run build`
-3. Output: `dist`
-4. Env: `VITE_API_URL=https://YOUR-API.onrender.com/api`
+**Frontend (Vercel project `mini-erp-crm-web`)**
+- `VITE_API_URL` — `https://mini-erp-crm-api.vercel.app/api`
+
+### Notes
+- Frontend build needs Node 20+ (Vercel project set to 22.x)
+- Free serverless cold start may make the first API request slow
+- Do not commit `.env` files
 
 ## Assumptions
 
 - One warehouse location field per product (string), not multi-warehouse master data
 - Purchase orders / invoices PDF are out of scope (assignment core only)
 - Soft “Accounts” role is mostly read access for customers/products/challans
-- Free-tier hosts may sleep when idle (first request can be slow)
+- Free-tier hosts may cold-start when idle (first request can be slow)
 
 ## Known limitations
 
@@ -168,7 +184,7 @@ Recommended free stack:
 - No product image upload
 - No PDF invoice export
 - Role permissions are API-enforced; UI hides links but is not the security boundary
-- Seed script clears and recreates demo data when run
+- Seed script clears and recreates demo data when `FORCE_SEED=true` is set
 
 ## Project structure
 
